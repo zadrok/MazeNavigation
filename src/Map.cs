@@ -17,15 +17,6 @@ namespace MazeNavigation
     {
       cells = new List<Cell>();
       mapSettingsSet = false;
-
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          cells.Add(new Cell(CellType.NORMAL, -1));
-        }
-      }
-
       start = false;
       finish = false;
     }
@@ -110,15 +101,17 @@ namespace MazeNavigation
     public void DrawMap()
     {
       int x = 0;
-      int y = 0;
-      int w = 5;
-      int h = 5;
-      int pad = 2;
+      int y = 10;
+      int w = 55;
+      int h = 55;
+      int textPad = 3;
+      int textHeight = 12;
       int count = 0;
       foreach (Cell c in Cells)
       {
         SwinGame.DrawRectangle(Color.Black,x,y,w,h);
-        SwinGame.DrawText(Cells.IndexOf(c).ToString(), Color.Black, x+pad, y+pad);
+        SwinGame.DrawText(Cells.IndexOf(c).ToString(), Color.Black, x+textPad, y+textPad);
+        SwinGame.DrawText(c.Type.ToString(), Color.Black, x+textPad, y+textPad+textHeight);
 
         if (count == width - 1)
         {
@@ -157,6 +150,15 @@ namespace MazeNavigation
       {
         width = ReadLineForInt(line)[1];
         height = ReadLineForInt(line)[0];
+
+        for (int i = 0; i < width; i++)
+        {
+          for (int j = 0; j < height; j++)
+          {
+            cells.Add(new Cell(CellType.NORMAL, -1));
+          }
+        }
+
         mapSettingsSet = true;
       }
       else if (line.Substring(0,1) == "(")

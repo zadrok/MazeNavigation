@@ -16,15 +16,15 @@ namespace MazeNavigation
       Map map = new Map();
       Agent agn = new Agent();
 
-      Console.WriteLine("args Length: " + args.Length);
-      for (int i = 0; i < args.Length; i++)
-      {
-        Console.WriteLine(i + " : " + args[i]);
-      }
+      // Console.WriteLine("args Length: " + args.Length);
+      // for (int i = 0; i < args.Length; i++)
+      // {
+      //   Console.WriteLine(i + " : " + args[i]);
+      // }
 
-      if (/*args.Length >= 1*/ true) //check if a file (map) was passed
+      if (args.Length >= 1) //check if a file (map) was passed
       {
-        ReadFile file = new ReadFile("map.txt");
+        ReadFile file = new ReadFile(args[0]);
         if (file.Good)
         {
           foreach (string line in file.Lines)
@@ -34,7 +34,7 @@ namespace MazeNavigation
           map.SetCost(1);
 
           //map.PrintLine();
-          map.PrintCellID();
+          //map.PrintCellID();
           map.PrintGrid();
 
           //agn.DFS(ref map);
@@ -50,7 +50,7 @@ namespace MazeNavigation
 
       if (args.Length >= 2)
       {
-        if (/*args[1] == "gui"*/ true)
+        if (args[1] == "gui")
         {
           //Open the game window
           OpenGraphicsWindow("Maze Navigation", 800, 600);
