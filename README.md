@@ -1,1 +1,1 @@
-# BattleShips
+# Maze Navigation

@@ -13,42 +13,44 @@ namespace MazeNavigation
   {
     static void Main(string[] args)
     {
-      Map map;
+      Map map = new Map();
       Agent agn = new Agent();
 
-      if (args.Length < 1)
+      Console.WriteLine("args Length: " + args.Length);
+      for (int i = 0; i < args.Length; i++)
       {
-        Console.WriteLine("no file parameter");
+        Console.WriteLine(i + " : " + args[i]);
       }
-      else
+
+      if (/*args.Length >= 1*/ true) //check if a file (map) was passed
       {
-        //variables needed
-        ReadFile file = new ReadFile(args[0]);
+        ReadFile file = new ReadFile("map.txt");
         if (file.Good)
         {
-          map = new Map(file.Lines[0]);
-
           foreach (string line in file.Lines)
           {
             map.Add(line);
           }
-
           map.SetCost(1);
 
           //map.PrintLine();
-          //map.PrintCellID();
-          //map.PrintGrid();
+          map.PrintCellID();
+          map.PrintGrid();
 
           //agn.DFS(ref map);
 
           //Console.Write("Press any key to continue... ");
           //Console.ReadLine();
-        }
+        } //end if good
+      }
+      else
+      {
+        Console.WriteLine("no file parameter");
       }
 
-      if (args.Length > 1)
+      if (args.Length >= 2)
       {
-        if (args[1] == "gui")
+        if (/*args[1] == "gui"*/ true)
         {
           //Open the game window
           OpenGraphicsWindow("Maze Navigation", 800, 600);
@@ -67,10 +69,9 @@ namespace MazeNavigation
 
               //Draw onto the screen
               RefreshScreen(60);
-          }
-        }
-      }
-
-    }
-  }
-}
+          } //end of while
+        } //end of gui check
+      } //end of length check
+    } //end of main
+  } //end of class
+} //end of namespace

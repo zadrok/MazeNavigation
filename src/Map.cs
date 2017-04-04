@@ -11,12 +11,12 @@ namespace MazeNavigation
     private List<Cell> cells;
     private int width, height;
     private bool start, finish;
+    private bool mapSettingsSet;
 
-    public Map(string line)
+    public Map()
     {
       cells = new List<Cell>();
-      width = ReadLineForInt(line)[1];
-      height = ReadLineForInt(line)[0];
+      mapSettingsSet = false;
 
       for (int i = 0; i < width; i++)
       {
@@ -153,7 +153,13 @@ namespace MazeNavigation
 
     public void Add(string line)
     {
-      if (line.Substring(0,1) == "(")
+      if (line.Substring(0,1) == "[" && !mapSettingsSet)
+      {
+        width = ReadLineForInt(line)[1];
+        height = ReadLineForInt(line)[0];
+        mapSettingsSet = true;
+      }
+      else if (line.Substring(0,1) == "(")
       {
         if (!start)
         {
@@ -179,11 +185,8 @@ namespace MazeNavigation
               cells[tmp].Type = CellType.WALL;
             }
           }
-
         }
-
       }
-
     }
 
     public void SetCost(int costStep)
@@ -251,9 +254,6 @@ namespace MazeNavigation
           quit = true;
 
       }
-
-
-
     }
 
     public bool CellNotWall(int CellID)
