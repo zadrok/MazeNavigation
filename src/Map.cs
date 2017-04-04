@@ -109,6 +109,23 @@ namespace MazeNavigation
       int count = 0;
       foreach (Cell c in Cells)
       {
+        if (c.Type == CellType.START)
+        {
+          SwinGame.FillRectangle(Color.Crimson,x,y,w,h);
+        }
+        else if (c.Type == CellType.END)
+        {
+          SwinGame.FillRectangle(Color.ForestGreen,x,y,w,h);
+        }
+        else if (c.Type == CellType.WALL)
+        {
+          SwinGame.FillRectangle(Color.Cyan,x,y,w,h);
+        }
+        else if (c.Type == CellType.NORMAL)
+        {
+          SwinGame.FillRectangle(Color.LightGray,x,y,w,h);
+        }
+
         SwinGame.DrawRectangle(Color.Black,x,y,w,h);
         SwinGame.DrawText(Cells.IndexOf(c).ToString(), Color.Black, x+textPad, y+textPad);
         SwinGame.DrawText(c.Type.ToString(), Color.Black, x+textPad, y+textPad+textHeight);
