@@ -118,7 +118,7 @@ namespace MazeNavigation
       foreach (Cell c in Cells)
       {
         SwinGame.DrawRectangle(Color.Black,x,y,w,h);
-        SwinGame.DrawText(Cells.IndexOf(c), Color.Black, x+pad, y+pad);
+        SwinGame.DrawText(Cells.IndexOf(c).ToString(), Color.Black, x+pad, y+pad);
 
         if (count == width - 1)
         {

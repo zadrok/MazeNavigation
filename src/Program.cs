@@ -13,6 +13,9 @@ namespace MazeNavigation
   {
     static void Main(string[] args)
     {
+      Map map;
+      Agent agn = new Agent();
+
       if (args.Length < 1)
       {
         Console.WriteLine("no file parameter");
@@ -23,8 +26,7 @@ namespace MazeNavigation
         ReadFile file = new ReadFile(args[0]);
         if (file.Good)
         {
-          Map map = new Map(file.Lines[0]);
-          Agent agn = new Agent();
+          map = new Map(file.Lines[0]);
 
           foreach (string line in file.Lines)
           {
