@@ -19,7 +19,7 @@ fi
 # Step 2: Determine game name
 #
 APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
-APP_PATH=`cd "$APP_PATH"; pwd` 
+APP_PATH=`cd "$APP_PATH"; pwd`
 cd "$APP_PATH"
 
 GAME_NAME=${APP_PATH##*/}
@@ -53,10 +53,9 @@ fi
 echo "Running ${VERSION}"
 
 if [ "$OS" = "$MAC" ]; then
-    "${EXE_PATH}"
+    "${EXE_PATH}" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
 elif [ "$OS" = "$LIN" ]; then
-    mono "$EXE_PATH"
+    mono "$EXE_PATH" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
 else #Windows
-    "${EXE_PATH}"
+    "${EXE_PATH}" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
 fi
-
