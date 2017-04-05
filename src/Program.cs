@@ -6,7 +6,7 @@ using static SwinGameSDK.SwinGame; // requires mcs version 4+,
 
 namespace MazeNavigation
 {
-  enum Action { LEFT = 0, RIGHT = 1, UP = 2, DOWN = 3, SUCK = 4, NOOP = 5 };
+  enum Action { LEFT = 0, RIGHT = 1, UP = 2, DOWN = 3, NOOP = 4 };
   enum CellType { NORMAL = 0, WALL = 1, START = 2, END = 3 };
 
   class Program
@@ -35,12 +35,15 @@ namespace MazeNavigation
 
           //map.PrintLine();
           //map.PrintCellID();
-          map.PrintGrid();
+          //map.PrintGrid();
 
           //agn.DFS(ref map);
+          agn.BFS(ref map);
+          //agn.GBFS(ref map);
+          agn.AS(ref map);
+          //agn.CUS1(ref map);
+          //agn.CUS2(ref map);
 
-          //Console.Write("Press any key to continue... ");
-          //Console.ReadLine();
         } //end if good
       }
       else
@@ -48,7 +51,7 @@ namespace MazeNavigation
         Console.WriteLine("no file parameter");
       }
 
-      if (args.Length >= 2)
+      if (args.Length >= 2) //check if any more arguments are passed
       {
         if (args[1] == "gui")
         {

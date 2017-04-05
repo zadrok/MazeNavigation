@@ -109,6 +109,7 @@ namespace MazeNavigation
       int count = 0;
       foreach (Cell c in Cells)
       {
+        //draw coloured cell
         if (c.Type == CellType.START)
         {
           SwinGame.FillRectangle(Color.Crimson,x,y,w,h);
@@ -126,9 +127,10 @@ namespace MazeNavigation
           SwinGame.FillRectangle(Color.LightGray,x,y,w,h);
         }
 
-        SwinGame.DrawRectangle(Color.Black,x,y,w,h);
-        SwinGame.DrawText(Cells.IndexOf(c).ToString(), Color.Black, x+textPad, y+textPad);
-        SwinGame.DrawText(c.Type.ToString(), Color.Black, x+textPad, y+textPad+textHeight);
+        SwinGame.DrawRectangle(Color.Black,x,y,w,h); //draw cell outline
+        SwinGame.DrawText(Cells.IndexOf(c).ToString(), Color.Black, x+textPad, y+textPad); //cellID
+        SwinGame.DrawText(c.Type.ToString(), Color.Black, x+textPad, y+textPad+textHeight); // cell Type
+        SwinGame.DrawText(c.Cost.ToString(), Color.Black, x+textPad, y+textPad+textHeight+textHeight); // cell cost
 
         if (count == width - 1)
         {
@@ -252,14 +254,6 @@ namespace MazeNavigation
         }
         frontier = TMPfrontier;
 
-        //Console.WriteLine("Current frontier ");
-        //foreach (int i in frontier)
-        //{
-        //  Console.Write(i + ", ");
-        //}
-        //Console.WriteLine("");
-
-
         foreach (Cell c in Cells)
         {
           if (c.Cost == -1)
@@ -273,6 +267,14 @@ namespace MazeNavigation
           quit = true;
 
       }
+
+      Cells[EndCell].Cost = 0;
+
+      foreach (Cell c in Cells)
+      {
+        if ( c.Type == CellType.WALL)
+          c.Cost = 0;
+      }
     }
 
     public bool CellNotWall(int CellID)
@@ -285,6 +287,19 @@ namespace MazeNavigation
         }
       }
       return false;
+    }
+
+    public Action GetAction(int aCell, int bCell)
+    {
+      List<Node> connected = GetAdjacentCells(aCell);
+
+      foreach(Node n in connected)
+      {
+        if (bCell == n.ID)
+          return n.Direction;
+      }
+
+      return Action.NOOP;
     }
 
     public List<Node> GetAdjacentCells(int CellID)

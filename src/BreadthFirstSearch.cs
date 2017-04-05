@@ -19,10 +19,11 @@ namespace MazeNavigation
 
     public bool Run(ref Map map)
     {
-      bool FoundEND = false;
-      bool ENDedEarly = false;
+      bool FoundEnd = false;
+      bool EndedEarly = false;
       int Steps = 0;
       int MaxSteps = map.Width * map.Height * 1000;
+      int Goal = map.EndCell;
 
       Searched = new List<Node>();
 
@@ -35,41 +36,39 @@ namespace MazeNavigation
       //}
       //Console.WriteLine("");
 
-      while (!FoundEND || !ENDedEarly)
+      while (!FoundEnd && !EndedEarly)
       {
-
+        //make sure that the list of nodes to check next is empty.
         FrontierNext = new List<Node>();
 
         foreach (Node cd in Frontier)
         {
-          if (cd.ID == map.EndCell)
+          //check goal state
+          if (cd.ID == Goal)
           {
             Searched.Add(cd);
-            FoundEND = true;
+            FoundEnd = true;
             break;
           }
           else
           {
             bool found = false;
 
-            if (Searched != null)
+            //check if the current node is in the list of searched nodes
+            foreach (Node cd2 in Searched)
             {
-              foreach (Node cd2 in Searched)
-              {
-                if (cd.ID == cd2.ID)
-                  found = true;
-              }
+              if (cd.ID == cd2.ID)
+                found = true;
             }
 
-            if (FrontierNext != null)
+            //check if the current node is in the list of nodes to check next
+            foreach (Node cd2 in FrontierNext)
             {
-              foreach (Node cd2 in FrontierNext)
-              {
-                if (cd.ID == cd2.ID)
-                  found = true;
-              }
+              if (cd.ID == cd2.ID)
+                found = true;
             }
 
+            //if current node is not found then it can be add to the list to search next
             if (!found)
             {
               FrontierNext.AddRange(map.GetAdjacentCells(cd.ID));
@@ -78,12 +77,13 @@ namespace MazeNavigation
 
           }
 
+          //make the list of nodes to search next the current list of nodes to search
           Frontier = FrontierNext;
 
         }
 
         if (Steps >= MaxSteps)
-          ENDedEarly = true;
+          EndedEarly = true;
         Steps++;
       }
 
@@ -96,9 +96,10 @@ namespace MazeNavigation
       }
       Console.WriteLine(" ");
 
-      Console.WriteLine("ENDedEarly: " + ENDedEarly + ", FoundEND: " + FoundEND);
-      return ENDedEarly || FoundEND;
+      Console.WriteLine("EndedEarly: " + EndedEarly + ", FoundEnd: " + FoundEnd +
+                        ", Steps taken: " + Steps + ", Max steps allowed: " + MaxSteps);
+      return EndedEarly || FoundEnd;
     }
-    
+
   }
 }
