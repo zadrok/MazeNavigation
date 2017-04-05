@@ -29,24 +29,18 @@ namespace MazeNavigation
 
       Frontier = map.GetAdjacentCells(map.StartCell);
 
-      //Console.WriteLine("Current frontier ");
-      //foreach (Node i in Frontier)
-      //{
-      //  Console.Write(i.ID + ", ");
-      //}
-      //Console.WriteLine("");
-
       while (!FoundEnd && !EndedEarly)
       {
         //make sure that the list of nodes to check next is empty.
         FrontierNext = new List<Node>();
 
-        foreach (Node cd in Frontier)
+        //check all nodes in Frontier
+        foreach (Node n in Frontier)
         {
-          //check goal state
-          if (cd.ID == Goal)
+          //check current node for goal state
+          if (n.ID == Goal)
           {
-            Searched.Add(cd);
+            Searched.Add(n);
             FoundEnd = true;
             break;
           }
@@ -55,24 +49,24 @@ namespace MazeNavigation
             bool found = false;
 
             //check if the current node is in the list of searched nodes
-            foreach (Node cd2 in Searched)
+            foreach (Node n2 in Searched)
             {
-              if (cd.ID == cd2.ID)
+              if (n.ID == n2.ID)
                 found = true;
             }
 
             //check if the current node is in the list of nodes to check next
-            foreach (Node cd2 in FrontierNext)
+            foreach (Node n2 in FrontierNext)
             {
-              if (cd.ID == cd2.ID)
+              if (n.ID == n2.ID)
                 found = true;
             }
 
             //if current node is not found then it can be add to the list to search next
             if (!found)
             {
-              FrontierNext.AddRange(map.GetAdjacentCells(cd.ID));
-              Searched.Add(cd);
+              FrontierNext.AddRange(map.GetAdjacentCells(n.ID));
+              Searched.Add(n);
             }
 
           }
@@ -88,11 +82,10 @@ namespace MazeNavigation
       }
 
 
-      Console.WriteLine("Format: (current node, move direction, new node)");
       Console.WriteLine("Searched: ");
-      foreach (Node cd in Searched)
+      foreach (Node n in Searched)
       {
-        Console.Write("(" + " here" + ", " + cd.Direction + ", " + cd.ID + "), ");
+        Console.Write(n.ID + ", ");
       }
       Console.WriteLine(" ");
 
