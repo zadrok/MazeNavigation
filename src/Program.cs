@@ -8,6 +8,7 @@ namespace MazeNavigation
 {
   enum Action { LEFT = 0, RIGHT = 1, UP = 2, DOWN = 3, NOOP = 4 };
   enum CellType { NORMAL = 0, WALL = 1, START = 2, END = 3 };
+  public struct Rect { public int x,y,width,height; }
 
   class Program
   {
@@ -16,65 +17,32 @@ namespace MazeNavigation
       Map map = new Map();
       Agent agn = new Agent();
 
-      // Console.WriteLine("args Length: " + args.Length);
-      // for (int i = 0; i < args.Length; i++)
-      // {
-      //   Console.WriteLine(i + " : " + args[i]);
-      // }
-
       if (args.Length >= 1) //check if a file (map) was passed
       {
         ReadFile file = new ReadFile(args[0]);
         if (file.Good)
         {
-          foreach (string line in file.Lines)
-          {
-            map.Add(line);
-          }
+          map.ProcessFile(ref file);
           map.SetCost(1);
-
-          //map.PrintLine();
-          //map.PrintCellID();
-          //map.PrintGrid();
-
-          //agn.DFS(ref map);
-          agn.BFS(ref map);
-          //agn.GBFS(ref map);
-          agn.AS(ref map);
-          //agn.CUS1(ref map);
-          //agn.CUS2(ref map);
-
         } //end if good
       }
-      else
-      {
-        Console.WriteLine("no file parameter");
-      }
 
-      if (args.Length >= 2) //check if any more arguments are passed
+      if (args.Length >= 2) //check if a search was passed in.
       {
         if (args[1] == "gui")
         {
-          //Open the game window
-          OpenGraphicsWindow("Maze Navigation", 800, 600);
-
-          //Run the game loop
-          while(false == WindowCloseRequested())
-          {
-              //Fetch the next batch of UI interaction
-              ProcessEvents();
-
-              //Clear the screen and draw the framerate
-              ClearScreen(Color.White);
-              DrawFramerate(0,0);
-
-              map.DrawMap();
-
-              //Draw onto the screen
-              RefreshScreen(60);
-          } //end of while
-        } //end of gui check
-      } //end of length check
+          GUI gui = new GUI();
+          gui.Run(ref agn, ref map);
+        } //end gui check
+        else
+        {
+          agn.Run(args[1], ref map);
+        }
+      } //end of length check == 2
+      else
+      {
+        Console.WriteLine("no parameters");
+      }
     } //end of main
   } //end of class
 } //end of namespace

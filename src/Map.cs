@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using SwinGameSDK;
-using static SwinGameSDK.SwinGame; // requires mcs version 4+,
 
 namespace MazeNavigation
 {
@@ -98,54 +96,6 @@ namespace MazeNavigation
       }
     }
 
-    public void DrawMap()
-    {
-      int x = 0;
-      int y = 10;
-      int w = 55;
-      int h = 55;
-      int textPad = 3;
-      int textHeight = 12;
-      int count = 0;
-      foreach (Cell c in Cells)
-      {
-        //draw coloured cell
-        if (c.Type == CellType.START)
-        {
-          SwinGame.FillRectangle(Color.Crimson,x,y,w,h);
-        }
-        else if (c.Type == CellType.END)
-        {
-          SwinGame.FillRectangle(Color.ForestGreen,x,y,w,h);
-        }
-        else if (c.Type == CellType.WALL)
-        {
-          SwinGame.FillRectangle(Color.Cyan,x,y,w,h);
-        }
-        else if (c.Type == CellType.NORMAL)
-        {
-          SwinGame.FillRectangle(Color.LightGray,x,y,w,h);
-        }
-
-        SwinGame.DrawRectangle(Color.Black,x,y,w,h); //draw cell outline
-        SwinGame.DrawText(Cells.IndexOf(c).ToString(), Color.Black, x+textPad, y+textPad); //cellID
-        SwinGame.DrawText(c.Type.ToString(), Color.Black, x+textPad, y+textPad+textHeight); // cell Type
-        SwinGame.DrawText(c.Cost.ToString(), Color.Black, x+textPad, y+textPad+textHeight+textHeight); // cell cost
-
-        if (count == width - 1)
-        {
-          x = 0;
-          y += h;
-          count = 0;
-        }
-        else
-        {
-          count++;
-          x += w;
-        }
-      }
-    }
-
     public List<int> ReadLineForInt(string line)
     {
       List<int> result = new List<int>();
@@ -161,6 +111,14 @@ namespace MazeNavigation
       }
 
       return result;
+    }
+
+    public void ProcessFile(ref ReadFile aFile)
+    {
+      foreach (string line in aFile.Lines)
+      {
+        Add(line);
+      }
     }
 
     public void Add(string line)

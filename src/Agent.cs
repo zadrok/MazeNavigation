@@ -10,6 +10,34 @@ namespace MazeNavigation
 
     }
 
+    public void Run(string aSearch, ref Map map)
+    {
+      if (aSearch == "DFS")
+      {
+        DFS(ref map);
+      } //end DFS check
+      else if (aSearch == "BFS")
+      {
+        BFS(ref map);
+      } //end BFS check
+      else if (aSearch == "GBFS")
+      {
+        GBFS(ref map);
+      } //end GBFS check
+      else if (aSearch == "AS")
+      {
+        AS(ref map);
+      } //end AS check
+      else if (aSearch == "CUS1")
+      {
+        CUS1(ref map);
+      } //end CUS1 check
+      else if (aSearch == "CUS2")
+      {
+        CUS2(ref map);
+      } //end CUS2 check
+    }
+
     public void DFS(ref Map map)
     {
       Console.WriteLine("Starting depth-first search");
