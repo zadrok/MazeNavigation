@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace MazeNavigation
 {
-  class CustomSearch2
+  class CustomSearch2 : SearchMethod
   {
-    public CustomSearch2()
+    public CustomSearch2(string aName)
     {
-
+      Name = aName;
     }
 
-    public bool Run(ref Map map)
+    public override bool Run(ref Map map)
     {
       bool FoundEnd = false;
       bool EndedEarly = false;

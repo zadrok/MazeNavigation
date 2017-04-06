@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace MazeNavigation
 {
-  class GreedyBestFirstSearch
+  class GreedyBestFirstSearch : SearchMethod
   {
-    public GreedyBestFirstSearch()
+    public GreedyBestFirstSearch(string aName)
     {
-
+      Name = aName;
     }
 
-    public bool Run(ref Map map)
+    public override bool Run(ref Map map)
     {
       bool FoundEnd = false;
       bool EndedEarly = false;

@@ -5,79 +5,32 @@ namespace MazeNavigation
 {
   class Agent
   {
+
+    private List<SearchMethod> searchMethods;
+
     public Agent()
     {
-
+      searchMethods = new List<SearchMethod>();
+      searchMethods.Add(new DepthFirstSearch("DFS"));
+      searchMethods.Add(new BreadthFirstSearch("BFS"));
+      searchMethods.Add(new GreedyBestFirstSearch("GBFS"));
+      searchMethods.Add(new AStarSearch("AS"));
+      searchMethods.Add(new CustomSearch1("CUS1"));
+      searchMethods.Add(new CustomSearch2("CUS2"));
     }
 
     public void Run(string aSearch, ref Map map)
     {
-      if (aSearch == "DFS")
+      foreach (SearchMethod sm in SearchMethods)
       {
-        DFS(ref map);
-      } //end DFS check
-      else if (aSearch == "BFS")
-      {
-        BFS(ref map);
-      } //end BFS check
-      else if (aSearch == "GBFS")
-      {
-        GBFS(ref map);
-      } //end GBFS check
-      else if (aSearch == "AS")
-      {
-        AS(ref map);
-      } //end AS check
-      else if (aSearch == "CUS1")
-      {
-        CUS1(ref map);
-      } //end CUS1 check
-      else if (aSearch == "CUS2")
-      {
-        CUS2(ref map);
-      } //end CUS2 check
+        if (aSearch.ToLower() == sm.Name.ToLower())
+          Console.WriteLine(sm.Run(ref map));
+      }
     }
 
-    public void DFS(ref Map map)
+    public List<SearchMethod> SearchMethods
     {
-      Console.WriteLine("Starting depth-first search");
-      DepthFirstSearch dfs = new DepthFirstSearch();
-      Console.WriteLine(dfs.Run(ref map));
-    }
-
-    public void BFS(ref Map map)
-    {
-      Console.WriteLine("Starting breadth-first search");
-      BreadthFirstSearch bfs = new BreadthFirstSearch();
-      Console.WriteLine( bfs.Run(ref map) );
-    }
-
-    public void GBFS(ref Map map)
-    {
-      Console.WriteLine("Starting greedy best-first");
-      GreedyBestFirstSearch gbfs = new GreedyBestFirstSearch();
-      Console.WriteLine( gbfs.Run(ref map) );
-    }
-
-    public void AS(ref Map map)
-    {
-      Console.WriteLine("Starting A* (“A Star”)");
-      AStarSearch ass = new AStarSearch();
-      Console.WriteLine( ass.Run(ref map) );
-    }
-
-    public void CUS1(ref Map map)
-    {
-      Console.WriteLine("Starting Your search strategy 1");
-      CustumSearch1 cus1 = new CustumSearch1();
-      Console.WriteLine( cus1.Run(ref map) );
-    }
-
-    public void CUS2(ref Map map)
-    {
-      Console.WriteLine("Starting Your search strategy 2");
-      CustomSearch2 cus2 = new CustomSearch2();
-      Console.WriteLine( cus2.Run(ref map) );
+      get { return searchMethods; }
     }
 
   }

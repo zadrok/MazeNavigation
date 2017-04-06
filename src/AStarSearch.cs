@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace MazeNavigation
 {
-  class AStarSearch
+  class AStarSearch : SearchMethod
   {
-    public AStarSearch()
+    public AStarSearch(string aName)
     {
-
+      Name = aName;
     }
 
-    public bool Run(ref Map map)
+    public override bool Run(ref Map map)
     {
       bool FoundEnd = false;
       bool EndedEarly = false;
@@ -21,7 +21,7 @@ namespace MazeNavigation
       while (!FoundEnd && !EndedEarly)
       {
 
-        
+
 
         //check steps
         if (Steps >= MaxSteps)

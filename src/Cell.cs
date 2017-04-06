@@ -7,7 +7,7 @@ namespace MazeNavigation
     private CellType type;
     private int cost;
 
-     public Cell(CellType inType, int inCost)
+    public Cell(CellType inType, int inCost)
     {
       Type = inType;
       Cost = inCost;
@@ -24,5 +24,5 @@ namespace MazeNavigation
         get { return cost; }
         set { cost = value; }
     }
-    }
+  }
 }

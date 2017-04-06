@@ -5,19 +5,20 @@ namespace MazeNavigation
 {
 
   //Expand all options one level at a time
-  class BreadthFirstSearch
+  class BreadthFirstSearch : SearchMethod
   {
     public List<Node> Frontier;
     public List<Node> FrontierNext;
     public List<Node> Searched;
 
-    public BreadthFirstSearch()
+    public BreadthFirstSearch(string aName)
     {
+      Name = aName;
       Searched = new List<Node>();
       FrontierNext = new List<Node>();
     }
 
-    public bool Run(ref Map map)
+    public override bool Run(ref Map map)
     {
       bool FoundEnd = false;
       bool EndedEarly = false;

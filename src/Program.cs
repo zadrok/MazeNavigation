@@ -8,7 +8,7 @@ namespace MazeNavigation
 {
   enum Action { LEFT = 0, RIGHT = 1, UP = 2, DOWN = 3, NOOP = 4 };
   enum CellType { NORMAL = 0, WALL = 1, START = 2, END = 3 };
-  public struct Rect { public int x,y,width,height; }
+  public struct Rect { public int x,y,width,height; };
 
   class Program
   {
