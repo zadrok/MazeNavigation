@@ -1,16 +1,20 @@
 ﻿using System;
+using SwinGameSDK;
+using static SwinGameSDK.SwinGame; // requires mcs version 4+,
 
 namespace MazeNavigation
 {
   class Cell
   {
     private CellType type;
+    private Color color;
     private int cost;
 
-    public Cell(CellType inType, int inCost)
+    public Cell(CellType aType, int aCost, Color aColor)
     {
-      Type = inType;
-      Cost = inCost;
+      Type = aType;
+      Cost = aCost;
+      Color = aColor;
     }
 
     public CellType Type
@@ -23,6 +27,12 @@ namespace MazeNavigation
     {
         get { return cost; }
         set { cost = value; }
+    }
+
+    public Color Color
+    {
+        get { return color; }
+        set { color = value; }
     }
   }
 }

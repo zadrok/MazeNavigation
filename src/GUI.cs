@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using SwinGameSDK;
 using static SwinGameSDK.SwinGame; // requires mcs version 4+,
 
@@ -17,6 +16,8 @@ namespace MazeNavigation
     {
       //Open the game window
       OpenGraphicsWindow("Maze Navigation", 800, 600);
+
+      map.SetColors();
 
       //Run the game loop
       while(false == WindowCloseRequested())
@@ -47,9 +48,8 @@ namespace MazeNavigation
       {
         w = sm.Name.Length*10;
         if (Button(sm.Name, Color.Black, Color.LightBlue, Color.Black, x,y,w,h))
-        {
           Console.WriteLine(sm.Run(ref map));
-        }
+          
         x += w + 10;
       }
     }
@@ -66,23 +66,7 @@ namespace MazeNavigation
       foreach (Cell c in map.Cells)
       {
         //draw coloured cell
-        if (c.Type == CellType.START)
-        {
-          SwinGame.FillRectangle(Color.Crimson,x,y,w,h);
-        }
-        else if (c.Type == CellType.END)
-        {
-          SwinGame.FillRectangle(Color.ForestGreen,x,y,w,h);
-        }
-        else if (c.Type == CellType.WALL)
-        {
-          SwinGame.FillRectangle(Color.Cyan,x,y,w,h);
-        }
-        else if (c.Type == CellType.NORMAL)
-        {
-          SwinGame.FillRectangle(Color.LightGray,x,y,w,h);
-        }
-
+        SwinGame.FillRectangle(c.Color,x,y,w,h);
         SwinGame.DrawRectangle(Color.Black,x,y,w,h); //draw cell outline
         SwinGame.DrawText(map.Cells.IndexOf(c).ToString(), Color.Black, x+textPad, y+textPad); //cellID
         SwinGame.DrawText(c.Type.ToString(), Color.Black, x+textPad, y+textPad+textHeight); // cell Type

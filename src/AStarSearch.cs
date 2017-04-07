@@ -17,6 +17,7 @@ namespace MazeNavigation
       int Steps = 0;
       int MaxSteps = map.Width * map.Height * 1000;
       int Goal = map.EndCell;
+      int Start = map.StartCell;
 
       while (!FoundEnd && !EndedEarly)
       {

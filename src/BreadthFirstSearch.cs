@@ -28,7 +28,7 @@ namespace MazeNavigation
 
       Searched = new List<Node>();
 
-      Frontier = map.GetAdjacentCells(map.StartCell);
+      Frontier = map.GetAdjacentNodes(map.StartCell);
 
       while (!FoundEnd && !EndedEarly)
       {
@@ -66,7 +66,7 @@ namespace MazeNavigation
             //if current node is not found then it can be add to the list to search next
             if (!found)
             {
-              FrontierNext.AddRange(map.GetAdjacentCells(n.ID));
+              FrontierNext.AddRange(map.GetAdjacentNodes(n.ID));
               Searched.Add(n);
             }
 

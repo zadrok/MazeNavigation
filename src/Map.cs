@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using SwinGameSDK;
+using static SwinGameSDK.SwinGame; // requires mcs version 4+,
 
 namespace MazeNavigation
 {
@@ -121,6 +123,29 @@ namespace MazeNavigation
       }
     }
 
+    public void SetColors()
+    {
+      foreach (Cell c in Cells)
+      {
+        if (c.Type == CellType.START)
+        {
+          c.Color = Color.Crimson;
+        }
+        else if (c.Type == CellType.END)
+        {
+          c.Color = Color.ForestGreen;
+        }
+        else if (c.Type == CellType.WALL)
+        {
+          c.Color = Color.Cyan;
+        }
+        else
+        {
+          c.Color = Color.LightGray;
+        }
+      }
+    }
+
     public void Add(string line)
     {
       if (line.Substring(0,1) == "[" && !mapSettingsSet)
@@ -132,7 +157,7 @@ namespace MazeNavigation
         {
           for (int j = 0; j < height; j++)
           {
-            cells.Add(new Cell(CellType.NORMAL, -1));
+            cells.Add(new Cell(CellType.NORMAL, -1, null));
           }
         }
 
@@ -182,7 +207,7 @@ namespace MazeNavigation
       //remove any cell that has been assigned.
 
       List<int> frontier = new List<int>();
-      foreach(Node c in GetAdjacentCells(EndID))
+      foreach(Node c in GetAdjacentNodes(EndID))
       {
         frontier.Add(c.ID);
       }
@@ -202,7 +227,7 @@ namespace MazeNavigation
         List<int> TMPfrontier = new List<int>();
         foreach (int i in frontier)
         {
-          foreach (Node c in GetAdjacentCells(i))
+          foreach (Node c in GetAdjacentNodes(i))
           {
             if (Cells[c.ID].Cost < 1 && Cells[c.ID].Type != CellType.END)
             {
@@ -249,7 +274,7 @@ namespace MazeNavigation
 
     public Action GetAction(int aCell, int bCell)
     {
-      List<Node> connected = GetAdjacentCells(aCell);
+      List<Node> connected = GetAdjacentNodes(aCell);
 
       foreach(Node n in connected)
       {
@@ -260,7 +285,7 @@ namespace MazeNavigation
       return Action.NOOP;
     }
 
-    public List<Node> GetAdjacentCells(int CellID)
+    public List<Node> GetAdjacentNodes(int CellID)
     {
       List<Node> cd = new List<Node>();
 
