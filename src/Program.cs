@@ -29,7 +29,7 @@ namespace MazeNavigation
 
       if (args.Length >= 2) //check if a search was passed in.
       {
-        if (args[1] == "gui")
+        if (args[1].ToLower() == "gui")
         {
           GUI gui = new GUI();
           gui.Run(ref agn, ref map);

@@ -25,20 +25,13 @@ namespace MazeNavigation
     public void PrintGrid()
     {
       Console.WriteLine("Printing the map");
-      int[] nums = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
       string mod = "";
       int i = 0;
       foreach (Cell c in Cells)
       {
         mod = "";
-        foreach(int j in nums)
-        {
-          if (j == c.Cost)
-          {
-            mod = " ";
-          }
-        }
-
+        if (c.Cost - 9 > 0)
+          mod = " ";
 
         if (c.Type == CellType.WALL)
         {
