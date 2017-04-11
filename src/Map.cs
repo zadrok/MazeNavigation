@@ -21,6 +21,11 @@ namespace MazeNavigation
       finish = false;
     }
 
+    public void ChangeCellColor(int aCellID, Color aColor)
+    {
+      cells[aCellID].Color = aColor;
+    }
+
     //Print all cells of the map
     public void PrintGrid()
     {

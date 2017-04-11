@@ -79,7 +79,7 @@ namespace MazeNavigation
       } //end while
 
 
-      if (ExtenstionMethods.Debug)
+      if (ExtensionMethods.Debug)
       {
         Console.WriteLine("Searched: ");
         foreach (Node n in Searched)

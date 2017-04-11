@@ -14,7 +14,8 @@ namespace MazeNavigation
   {
     static void Main(string[] args)
     {
-      ExtensionMethods.Debug = true;
+      if ((args.Length >= 3 && args[2].ToLower() == "debug") ? ExtensionMethods.Debug = true : ExtensionMethods.Debug = false);
+
       Map map = new Map();
       Agent agn = new Agent();
 

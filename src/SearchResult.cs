@@ -41,14 +41,17 @@ namespace MazeNavigation
       Console.WriteLine("EndedEarly: " + EndedEarly + ", FoundEnd: " + FoundEnd + ", Steps taken: " + Steps + ", Max steps allowed: " + MaxSteps);
     }
 
-    public string PrintFinalPath()
+    public void PrintFinalPath()
     {
-      string result = "";
-      foreach (Node n in finalPath)
+      if (finalPath.Count > 0)
       {
-        result += n.Direction.ToString() + ", ";
+        string result = "";
+        foreach (Node n in finalPath)
+        {
+          result += n.Direction.ToString() + ", ";
+        }
+        Console.WriteLine(result);
       }
-      return result;
     }
 
     public bool FoundEnd

@@ -22,7 +22,7 @@ namespace MazeNavigation
         SearchResults.TakeStep();
       } //end while
 
-      if (ExtenstionMethods.Debug)
+      if (ExtensionMethods.Debug)
         SearchResults.OutputInfo();
       return SearchResults;
     }
