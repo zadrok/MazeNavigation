@@ -6,14 +6,15 @@ namespace MazeNavigation
   class SearchMethod
   {
     private string name;
-    public virtual bool Run(ref Map map)
+    public virtual SearchResult Run(ref Map map)
     {
-      return false;
+      SearchResult SearchResults = new SearchResult(0); //pass in how mant steps to take
+      return SearchResults;
     }
     public string Name
     {
       get { return name; }
-      set { name = value; } 
+      set { name = value; }
     }
   }
 }

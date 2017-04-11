@@ -14,6 +14,7 @@ namespace MazeNavigation
   {
     static void Main(string[] args)
     {
+      ExtensionMethods.Debug = true;
       Map map = new Map();
       Agent agn = new Agent();
 

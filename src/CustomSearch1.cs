@@ -10,28 +10,21 @@ namespace MazeNavigation
       Name = aName;
     }
 
-    public override bool Run(ref Map map)
+    public override SearchResult Run(ref Map map)
     {
-      bool FoundEnd = false;
-      bool EndedEarly = false;
-      int Steps = 0;
-      int MaxSteps = map.Width * map.Height * 1000;
+      SearchResult SearchResults = new SearchResult(map.Width * map.Height * 1000); //pass in how mant steps to take
       int Goal = map.EndCell;
 
-      while (!FoundEnd && !EndedEarly)
+      while (SearchResults.End())
       {
 
 
-
-        //check steps
-        if (Steps >= MaxSteps)
-          EndedEarly = true;
-        Steps++;
+        SearchResults.TakeStep();
       } //end while
 
-      Console.WriteLine("EndedEarly: " + EndedEarly + ", FoundEnd: " + FoundEnd +
-                        ", Steps taken: " + Steps + ", Max steps allowed: " + MaxSteps);
-      return EndedEarly || FoundEnd;
+      if (ExtenstionMethods.Debug)
+        SearchResults.OutputInfo();
+      return SearchResults;
     }
   }
 }

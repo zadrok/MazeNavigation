@@ -48,8 +48,8 @@ namespace MazeNavigation
       {
         w = sm.Name.Length*10;
         if (Button(sm.Name, Color.Black, Color.LightBlue, Color.Black, x,y,w,h))
-          Console.WriteLine(sm.Run(ref map));
-          
+          Console.WriteLine(sm.Run(ref map).PrintFinalPath());
+
         x += w + 10;
       }
     }

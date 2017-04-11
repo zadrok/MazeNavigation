@@ -18,19 +18,16 @@ namespace MazeNavigation
       FrontierNext = new List<Node>();
     }
 
-    public override bool Run(ref Map map)
+    public override SearchResult Run(ref Map map)
     {
-      bool FoundEnd = false;
-      bool EndedEarly = false;
-      int Steps = 0;
-      int MaxSteps = map.Width * map.Height * 1000;
+      SearchResult SearchResults = new SearchResult(map.Width * map.Height * 1000); //pass in how mant steps to take
       int Goal = map.EndCell;
 
       Searched = new List<Node>();
 
       Frontier = map.GetAdjacentNodes(map.StartCell);
 
-      while (!FoundEnd && !EndedEarly)
+      while (!SearchResults.End())
       {
         //make sure that the list of nodes to check next is empty.
         FrontierNext = new List<Node>();
@@ -42,7 +39,7 @@ namespace MazeNavigation
           if (n.ID == Goal)
           {
             Searched.Add(n);
-            FoundEnd = true;
+            SearchResults.FoundEnd = true;
             break;
           }
           else
@@ -77,22 +74,24 @@ namespace MazeNavigation
 
         }
 
-        if (Steps >= MaxSteps)
-          EndedEarly = true;
-        Steps++;
-      }
+
+        SearchResults.TakeStep();
+      } //end while
 
 
-      Console.WriteLine("Searched: ");
-      foreach (Node n in Searched)
+      if (ExtenstionMethods.Debug)
       {
-        Console.Write(n.ID + ", ");
-      }
-      Console.WriteLine(" ");
+        Console.WriteLine("Searched: ");
+        foreach (Node n in Searched)
+        {
+          Console.Write(n.ID + ", ");
+        }
+        Console.WriteLine(" ");
 
-      Console.WriteLine("EndedEarly: " + EndedEarly + ", FoundEnd: " + FoundEnd +
-                        ", Steps taken: " + Steps + ", Max steps allowed: " + MaxSteps);
-      return EndedEarly || FoundEnd;
+        SearchResults.OutputInfo();
+      }
+
+      return SearchResults;
     }
 
   }
