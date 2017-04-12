@@ -17,6 +17,7 @@ namespace MazeNavigation
       animateMap = false;
       animateStart = false;
       animateEnd = false;
+      searchResults = null;
     }
 
     public void Run(ref Agent agn, ref Map map)
@@ -25,6 +26,7 @@ namespace MazeNavigation
       OpenGraphicsWindow("Maze Navigation", 800, 600);
 
       map.SetColors();
+      SetColorIndex();
 
       //Run the game loop
       while(false == WindowCloseRequested())
@@ -60,7 +62,7 @@ namespace MazeNavigation
           searchResults = sm.Run(ref map);
           animateMap = true;
           animateStart = true;
-          animateEnd = true;
+          animateEnd = false;
         }
         x += w + 10;
       }
@@ -76,26 +78,46 @@ namespace MazeNavigation
 
     public void AnimateMap(ref Map map)
     {
-      if (animateMap)
+      if (animateMap) //make sure the map needs to be animated
       {
-        if (animateStart)
+        if (animateStart) //check if this is the start of the animation
         {
           map.SetColors();
           animateStart = false;
+        } //animateStart
+
+        if (searchResults.SearchedNodes.Count > 0) //make sure that there is someting to animte with
+        {
+          foreach(Node n in searchResults.SearchedNodes)
+          {
+            if (n.ID == map.StartCell)
+            {
+              map.SetCellColor(n.ID, ColorIndex.SearchedStart);
+            }
+            else if (n.ID == map.EndCell)
+            {
+              map.SetCellColor(n.ID, ColorIndex.SearchedEnd);
+            }
+            else
+            {
+              map.SetCellColor(n.ID, ColorIndex.SearchedNormal);
+            }
+
+          }
+          animateEnd = true; //this is the end of the animation
         }
-        searchResults.PrintFinalPath();
+        else
+        {
+          animateEnd = true; //this is the end of the animation
+        } //Count
 
-
-
-
-        if (animateEnd)
+        if (animateEnd) //check if this is the end of the animation
         {
           animateMap = false;
           animateEnd = false;
           searchResults = null;
-        }
-
-      }
+        } //animateEnd
+      } //animateMap
     }
 
     public void DrawMap(ref Map map)
@@ -150,6 +172,18 @@ namespace MazeNavigation
 			B.height = 3;
 
 			return ExtensionMethods.rectOverlap(A,B) && SwinGame.MouseClicked(MouseButton.LeftButton);
+    }
+
+    public void SetColorIndex()
+    {
+      ColorIndex.Normal = Color.LightGray;
+      ColorIndex.Start = Color.Crimson;
+      ColorIndex.End = Color.ForestGreen;
+      ColorIndex.Wall = Color.Cyan;
+
+      ColorIndex.SearchedNormal = Color.Pink;
+      ColorIndex.SearchedStart = Color.Magenta;
+      ColorIndex.SearchedEnd = Color.DarkMagenta;
     }
 
   }

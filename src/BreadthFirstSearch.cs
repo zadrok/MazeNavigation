@@ -7,38 +7,33 @@ namespace MazeNavigation
   //Expand all options one level at a time
   class BreadthFirstSearch : SearchMethod
   {
-    public List<Node> Frontier;
-    public List<Node> FrontierNext;
-    public List<Node> Searched;
 
     public BreadthFirstSearch(string aName)
     {
       Name = aName;
-      Searched = new List<Node>();
-      FrontierNext = new List<Node>();
     }
 
     public override SearchResult Run(ref Map map)
     {
-      SearchResult SearchResults = new SearchResult(map.Width * map.Height * 1000); //pass in how mant steps to take
+      SearchResult SearchResults = new SearchResult(Name, map.Width * map.Height * 1000); //pass in how mant steps to take
       int Goal = map.EndCell;
 
-      Searched = new List<Node>();
+      SearchResults.SearchedNodes = new List<Node>();
 
-      Frontier = map.GetAdjacentNodes(map.StartCell);
+      SearchResults.Frontier = map.GetAdjacentNodes(map.StartCell);
 
-      while (!SearchResults.End())
+      while (SearchResults.End())
       {
         //make sure that the list of nodes to check next is empty.
-        FrontierNext = new List<Node>();
+        SearchResults.FrontierNext = new List<Node>();
 
         //check all nodes in Frontier
-        foreach (Node n in Frontier)
+        foreach (Node n in SearchResults.Frontier)
         {
           //check current node for goal state
           if (n.ID == Goal)
           {
-            Searched.Add(n);
+            SearchResults.SearchedNodes.Add(n);
             SearchResults.FoundEnd = true;
             break;
           }
@@ -47,14 +42,14 @@ namespace MazeNavigation
             bool found = false;
 
             //check if the current node is in the list of searched nodes
-            foreach (Node n2 in Searched)
+            foreach (Node n2 in SearchResults.SearchedNodes)
             {
               if (n.ID == n2.ID)
                 found = true;
             }
 
             //check if the current node is in the list of nodes to check next
-            foreach (Node n2 in FrontierNext)
+            foreach (Node n2 in SearchResults.FrontierNext)
             {
               if (n.ID == n2.ID)
                 found = true;
@@ -63,14 +58,14 @@ namespace MazeNavigation
             //if current node is not found then it can be add to the list to search next
             if (!found)
             {
-              FrontierNext.AddRange(map.GetAdjacentNodes(n.ID));
-              Searched.Add(n);
+              SearchResults.FrontierNext.AddRange(map.GetAdjacentNodes(n.ID));
+              SearchResults.SearchedNodes.Add(n);
             }
 
           }
 
           //make the list of nodes to search next the current list of nodes to search
-          Frontier = FrontierNext;
+          SearchResults.Frontier = SearchResults.FrontierNext;
 
         }
 
@@ -82,7 +77,7 @@ namespace MazeNavigation
       if (ExtensionMethods.Debug)
       {
         Console.WriteLine("Searched: ");
-        foreach (Node n in Searched)
+        foreach (Node n in SearchResults.SearchedNodes)
         {
           Console.Write(n.ID + ", ");
         }

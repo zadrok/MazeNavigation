@@ -7,16 +7,21 @@ namespace MazeNavigation
   {
 
     private List<Node> searchedNodes;
+    private List<Node> frontier;
+    private List<Node> frontierNext;
     private List<Node> finalPath;
     private bool foundEnd;
     private bool endedEarly;
     private int steps;
     private int maxSteps;
+    private string name;
 
-    public SearchResult(int maxStepsToTake)
+    public SearchResult(string aName, int maxStepsToTake)
     {
       searchedNodes = new List<Node>();
+      frontier = new List<Node>();
       finalPath = new List<Node>();
+      name = aName;
       foundEnd = false;
       endedEarly = false;
       steps = 0;
@@ -38,6 +43,7 @@ namespace MazeNavigation
 
     public void OutputInfo()
     {
+      Console.WriteLine(Name);
       Console.WriteLine("EndedEarly: " + EndedEarly + ", FoundEnd: " + FoundEnd + ", Steps taken: " + Steps + ", Max steps allowed: " + MaxSteps);
     }
 
@@ -52,6 +58,11 @@ namespace MazeNavigation
         }
         Console.WriteLine(result);
       }
+    }
+
+    public string Name
+    {
+      get { return name; }
     }
 
     public bool FoundEnd
@@ -76,6 +87,18 @@ namespace MazeNavigation
     {
       get { return maxSteps; }
       set { maxSteps = value; }
+    }
+
+    internal List<Node> Frontier
+    {
+      get { return frontier; }
+      set { frontier = value; }
+    }
+
+    internal List<Node> FrontierNext
+    {
+      get { return frontierNext; }
+      set { frontierNext = value; }
     }
 
     internal List<Node> SearchedNodes

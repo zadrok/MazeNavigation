@@ -12,10 +12,10 @@ namespace MazeNavigation
 
     public override SearchResult Run(ref Map map)
     {
-      SearchResult SearchResults = new SearchResult(map.Width * map.Height * 1000); //pass in how mant steps to take
+      SearchResult SearchResults = new SearchResult(Name, map.Width * map.Height * 1000); //pass in how mant steps to take
       int Goal = map.EndCell;
 
-      while (!SearchResults.End())
+      while (SearchResults.End())
       {
 
 

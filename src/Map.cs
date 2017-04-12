@@ -21,7 +21,7 @@ namespace MazeNavigation
       finish = false;
     }
 
-    public void ChangeCellColor(int aCellID, Color aColor)
+    public void SetCellColor(int aCellID, Color aColor)
     {
       cells[aCellID].Color = aColor;
     }
@@ -127,19 +127,19 @@ namespace MazeNavigation
       {
         if (c.Type == CellType.START)
         {
-          c.Color = Color.Crimson;
+          c.Color = ColorIndex.Start;
         }
         else if (c.Type == CellType.END)
         {
-          c.Color = Color.ForestGreen;
+          c.Color = ColorIndex.End;
         }
         else if (c.Type == CellType.WALL)
         {
-          c.Color = Color.Cyan;
+          c.Color = ColorIndex.Wall;
         }
         else
         {
-          c.Color = Color.LightGray;
+          c.Color = ColorIndex.Normal;
         }
       }
     }

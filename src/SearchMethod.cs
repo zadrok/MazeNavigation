@@ -8,7 +8,7 @@ namespace MazeNavigation
     private string name;
     public virtual SearchResult Run(ref Map map)
     {
-      SearchResult SearchResults = new SearchResult(0); //pass in how mant steps to take
+      SearchResult SearchResults = new SearchResult("default", 0); //pass in how mant steps to take
       return SearchResults;
     }
     public string Name
