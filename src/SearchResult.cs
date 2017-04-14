@@ -10,22 +10,64 @@ namespace MazeNavigation
     private List<Node> frontier;
     private List<Node> frontierNext;
     private List<Node> finalPath;
+    private Node goalNode;
+    private Node startNode;
     private bool foundEnd;
     private bool endedEarly;
     private int steps;
     private int maxSteps;
     private string name;
 
-    public SearchResult(string aName, int maxStepsToTake)
+    public SearchResult(string aName, int startID, int goalID, int maxStepsToTake)
     {
+      goalNode = new Node(goalID, Action.NOOP);
+      startNode = new Node(startID, Action.NOOP);
       searchedNodes = new List<Node>();
       frontier = new List<Node>();
+      frontierNext = new List<Node>();
       finalPath = new List<Node>();
       name = aName;
       foundEnd = false;
       endedEarly = false;
       steps = 0;
       maxSteps = maxStepsToTake;
+    }
+
+    public void ClearFrontierNext()
+    {
+      frontierNext = new List<Node>();
+    }
+
+    public List<Node> Reverse(List<Node> aList)
+    {
+      aList.Reverse();
+      foreach (Node n in aList)
+      {
+        n.Direction = OppositeAction(n.Direction);
+      }
+      return aList;
+    }
+
+    public Action OppositeAction(Action aDir)
+    {
+      if (aDir == Action.LEFT)
+      {
+        return Action.RIGHT;
+      }
+      else if (aDir == Action.RIGHT)
+      {
+        return Action.LEFT;
+      }
+      else if (aDir == Action.UP)
+      {
+        return Action.DOWN;
+      }
+      else if (aDir == Action.DOWN)
+      {
+        return Action.UP;
+      }
+
+      return Action.NOOP;
     }
 
     public void TakeStep()
@@ -56,7 +98,7 @@ namespace MazeNavigation
         {
           result += n.Direction.ToString() + ", ";
         }
-        Console.WriteLine(result);
+        Console.WriteLine(result.Substring(0, result.Length-2));
       }
     }
 
@@ -87,6 +129,18 @@ namespace MazeNavigation
     {
       get { return maxSteps; }
       set { maxSteps = value; }
+    }
+
+    public Node StartNode
+    {
+      get { return startNode; }
+      set { startNode = value; }
+    }
+
+    public Node GoalNode
+    {
+      get { return goalNode; }
+      set { goalNode = value; }
     }
 
     internal List<Node> Frontier

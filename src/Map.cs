@@ -26,6 +26,14 @@ namespace MazeNavigation
       cells[aCellID].Color = aColor;
     }
 
+    public int HeuristicCostEstimate(int aID, int bID)
+    {
+      if (aID > bID)
+        return aID - bID;
+
+      return bID - aID;
+    }
+
     //Print all cells of the map
     public void PrintGrid()
     {

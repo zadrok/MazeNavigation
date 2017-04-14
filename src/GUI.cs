@@ -25,8 +25,8 @@ namespace MazeNavigation
       //Open the game window
       OpenGraphicsWindow("Maze Navigation", 800, 600);
 
-      map.SetColors();
       SetColorIndex();
+      map.SetColors();
 
       //Run the game loop
       while(false == WindowCloseRequested())
@@ -103,7 +103,26 @@ namespace MazeNavigation
               map.SetCellColor(n.ID, ColorIndex.SearchedNormal);
             }
 
-          }
+          } //end foreach
+
+          //Console.WriteLine(searchResults.FinalPath.Count);
+          foreach(Node n in searchResults.FinalPath)
+          {
+            if (n.ID == map.StartCell)
+            {
+              map.SetCellColor(n.ID, ColorIndex.SearchedStart);
+            }
+            else if (n.ID == map.EndCell)
+            {
+              map.SetCellColor(n.ID, ColorIndex.SearchedEnd);
+            }
+            else
+            {
+              map.SetCellColor(n.ID, ColorIndex.FinalNormal);
+            }
+
+          } //end foreach
+
           animateEnd = true; //this is the end of the animation
         }
         else
@@ -149,7 +168,7 @@ namespace MazeNavigation
           count++;
           x += w;
         }
-      }
+      } // end foreach
     }
 
     public bool Button(string txt, Color txtColor, Color btnBackColor, Color btnLineColor, int x, int y, int w, int h)
@@ -184,6 +203,8 @@ namespace MazeNavigation
       ColorIndex.SearchedNormal = Color.Pink;
       ColorIndex.SearchedStart = Color.Magenta;
       ColorIndex.SearchedEnd = Color.DarkMagenta;
+
+      ColorIndex.FinalNormal = Color.HotPink;
     }
 
   }

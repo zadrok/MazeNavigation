@@ -15,23 +15,16 @@ namespace MazeNavigation
 
     public override SearchResult Run(ref Map map)
     {
-      SearchResult SearchResults = new SearchResult(Name, map.Width * map.Height * 1000); //pass in how mant steps to take
-      int Goal = map.EndCell;
-
-      SearchResults.SearchedNodes = new List<Node>();
-
-      SearchResults.Frontier = map.GetAdjacentNodes(map.StartCell);
+      SearchResult SearchResults = new SearchResult(Name, map.StartCell, map.EndCell, map.Width * map.Height * 1000); //pass in how mant steps to take
+      SearchResults.Frontier.Add(SearchResults.StartNode);
 
       while (SearchResults.End())
       {
-        //make sure that the list of nodes to check next is empty.
-        SearchResults.FrontierNext = new List<Node>();
-
         //check all nodes in Frontier
         foreach (Node n in SearchResults.Frontier)
         {
           //check current node for goal state
-          if (n.ID == Goal)
+          if (n.ID == SearchResults.GoalNode.ID)
           {
             SearchResults.SearchedNodes.Add(n);
             SearchResults.FoundEnd = true;
@@ -48,34 +41,61 @@ namespace MazeNavigation
                 found = true;
             }
 
-            //check if the current node is in the list of nodes to check next
-            foreach (Node n2 in SearchResults.FrontierNext)
-            {
-              if (n.ID == n2.ID)
-                found = true;
-            }
-
             //if current node is not found then it can be add to the list to search next
             if (!found)
             {
-              SearchResults.FrontierNext.AddRange(map.GetAdjacentNodes(n.ID));
+              List<Node> tmp = map.GetAdjacentNodes(n.ID);
+              foreach (Node n2 in tmp)
+              {
+                n2.BestAdjacentNodeID = n.ID;
+              }
+              SearchResults.FrontierNext.AddRange(tmp);
               SearchResults.SearchedNodes.Add(n);
             }
 
-          }
+          } //end else
 
-          //make the list of nodes to search next the current list of nodes to search
-          SearchResults.Frontier = SearchResults.FrontierNext;
+        } //end foreach
 
-        }
-
+        SearchResults.Frontier = SearchResults.FrontierNext;
+        SearchResults.ClearFrontierNext();
 
         SearchResults.TakeStep();
       } //end while
 
+      bool done = false;
+      SearchResults.FinalPath.Add(SearchResults.GoalNode);
+      while (!done)
+      {
+        SearchResults.ClearFrontierNext();
+        foreach (Node n in SearchResults.SearchedNodes)
+        {
+          if (n.ID == SearchResults.FinalPath[SearchResults.FinalPath.Count-1].ID)
+          {
+            Node tmp = new Node(n.BestAdjacentNodeID, map.GetAction(n.ID, n.BestAdjacentNodeID));
+            //tmp.Print();
+            SearchResults.FinalPath.Add(tmp);
+          }
+        }
+
+        foreach (Node n in SearchResults.FinalPath)
+        {
+          if (n.ID == SearchResults.StartNode.ID)
+            done = true;
+        }
+      }
+
+      SearchResults.FinalPath.RemoveAt(0);
+      SearchResults.FinalPath = SearchResults.Reverse(SearchResults.FinalPath);
 
       if (ExtensionMethods.Debug)
       {
+        Console.WriteLine("Final Path: ");
+        foreach (Node n in SearchResults.FinalPath)
+        {
+          Console.WriteLine("ID: " + n.ID + ", Direction: " + n.Direction);
+        }
+
         Console.WriteLine("Searched: ");
         foreach (Node n in SearchResults.SearchedNodes)
         {

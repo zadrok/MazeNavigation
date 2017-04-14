@@ -24,7 +24,7 @@ namespace MazeNavigation
       foreach (SearchMethod sm in SearchMethods)
       {
         if (aSearch.ToLower() == sm.Name.ToLower())
-          Console.WriteLine(sm.Run(ref map));
+          sm.Run(ref map).PrintFinalPath();
       }
     }
 

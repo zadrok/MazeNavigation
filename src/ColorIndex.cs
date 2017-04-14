@@ -16,6 +16,8 @@ namespace MazeNavigation
     private static Color searchedStart;
     private static Color searchedEnd;
 
+    private static Color finalNormal;
+
     public static Color Normal
     {
       get { return normal; }
@@ -56,6 +58,12 @@ namespace MazeNavigation
     {
       get { return searchedEnd; }
       set { searchedEnd = value; }
+    }
+
+    public static Color FinalNormal
+    {
+      get { return finalNormal; }
+      set { finalNormal = value; }
     }
 
   }
