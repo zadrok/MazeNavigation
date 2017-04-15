@@ -12,8 +12,9 @@ namespace MazeNavigation
     private List<Node> finalPath;
     private Node goalNode;
     private Node startNode;
-    private bool foundEnd;
-    private bool endedEarly;
+    private bool endFound;
+    private bool endEarly;
+    private bool endNull;
     private int steps;
     private int maxSteps;
     private string name;
@@ -27,8 +28,9 @@ namespace MazeNavigation
       frontierNext = new List<Node>();
       finalPath = new List<Node>();
       name = aName;
-      foundEnd = false;
-      endedEarly = false;
+      endFound = false;
+      endEarly = false;
+      endNull = false;
       steps = 0;
       maxSteps = maxStepsToTake;
     }
@@ -74,19 +76,19 @@ namespace MazeNavigation
     {
       //check steps
       if (Steps >= MaxSteps)
-        EndedEarly = true;
+        EndEarly = true;
       Steps++;
     }
 
     public bool End()
     {
-      return !foundEnd && !endedEarly;
+      return !endFound && !endEarly && !endNull;
     }
 
     public void OutputInfo()
     {
       Console.WriteLine(Name);
-      Console.WriteLine("EndedEarly: " + EndedEarly + ", FoundEnd: " + FoundEnd + ", Steps taken: " + Steps + ", Max steps allowed: " + MaxSteps);
+      Console.WriteLine("EndEarly: " + EndEarly + ", EndFound: " + EndFound + ", EndNull: " + EndNull + ", Steps taken: " + Steps + ", Max steps allowed: " + MaxSteps);
     }
 
     public void PrintFinalPath()
@@ -102,21 +104,54 @@ namespace MazeNavigation
       }
     }
 
+    public void ReconstructPath(ref Map map)
+    {
+      bool done = false;
+      FinalPath.Add(GoalNode);
+      while (!done)
+      {
+        ClearFrontierNext();
+        foreach (Node n in SearchedNodes)
+        {
+          if (n.ID == FinalPath[FinalPathLast].ID)
+          {
+            Node tmp = new Node(n.BestAdjacentNodeID, map.GetAction(n.ID, n.BestAdjacentNodeID));
+            FinalPath.Add(tmp);
+          }
+        }
+
+        foreach (Node n in FinalPath)
+        {
+          if (n.ID == StartNode.ID)
+            done = true;
+        }
+      }
+
+      FinalPath.RemoveAt(0);
+      FinalPath = Reverse(FinalPath);
+    }
+
     public string Name
     {
       get { return name; }
     }
 
-    public bool FoundEnd
+    public bool EndFound
     {
-      get { return foundEnd; }
-      set { foundEnd = value; }
+      get { return endFound; }
+      set { endFound = value; }
     }
 
-    public bool EndedEarly
+    public bool EndEarly
     {
-      get { return endedEarly; }
-      set { endedEarly = value; }
+      get { return endEarly; }
+      set { endEarly = value; }
+    }
+
+    public bool EndNull
+    {
+      get { return endNull; }
+      set { endNull = value; }
     }
 
     public int Steps
@@ -129,6 +164,16 @@ namespace MazeNavigation
     {
       get { return maxSteps; }
       set { maxSteps = value; }
+    }
+
+    public int FrontierLast
+    {
+      get { return Frontier.Count-1; }
+    }
+
+    public int FinalPathLast
+    {
+      get { return FinalPath.Count-1; }
     }
 
     public Node StartNode

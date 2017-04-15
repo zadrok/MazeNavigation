@@ -38,13 +38,13 @@ namespace MazeNavigation
       set { bestAdjacentNodeID = value; }
     }
 
-    public int GCost
+    public int GScore
     {
       get { return gCost; }
       set { gCost = value; }
     }
 
-    public int FCost
+    public int FScore
     {
       get { return fCost; }
       set { fCost = value; }

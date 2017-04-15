@@ -27,7 +27,7 @@ namespace MazeNavigation
           if (n.ID == SearchResults.GoalNode.ID)
           {
             SearchResults.SearchedNodes.Add(n);
-            SearchResults.FoundEnd = true;
+            SearchResults.EndFound = true;
             break;
           }
           else
@@ -63,30 +63,8 @@ namespace MazeNavigation
         SearchResults.TakeStep();
       } //end while
 
-      bool done = false;
-      SearchResults.FinalPath.Add(SearchResults.GoalNode);
-      while (!done)
-      {
-        SearchResults.ClearFrontierNext();
-        foreach (Node n in SearchResults.SearchedNodes)
-        {
-          if (n.ID == SearchResults.FinalPath[SearchResults.FinalPath.Count-1].ID)
-          {
-            Node tmp = new Node(n.BestAdjacentNodeID, map.GetAction(n.ID, n.BestAdjacentNodeID));
-            //tmp.Print();
-            SearchResults.FinalPath.Add(tmp);
-          }
-        }
-
-        foreach (Node n in SearchResults.FinalPath)
-        {
-          if (n.ID == SearchResults.StartNode.ID)
-            done = true;
-        }
-      }
-
-      SearchResults.FinalPath.RemoveAt(0);
-      SearchResults.FinalPath = SearchResults.Reverse(SearchResults.FinalPath);
+      //reconstruct the most optimal path
+      SearchResults.ReconstructPath(ref map);
 
       if (ExtensionMethods.Debug)
       {

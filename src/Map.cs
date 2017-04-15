@@ -28,10 +28,27 @@ namespace MazeNavigation
 
     public int HeuristicCostEstimate(int aID, int bID)
     {
-      if (aID > bID)
-        return aID - bID;
+      if (aID == bID)
+        return 0;
 
-      return bID - aID;
+      int aColomn = aID;
+      int bColumn = bID;
+      int aRow = 0;
+      int bRow = 0;
+
+      while (aColomn >= width)
+      {
+        aRow++;
+        aColomn -= width;
+      }
+
+      while (bColumn >= width)
+      {
+        bRow++;
+        bColumn -= width;
+      }
+
+      return Math.Abs(aRow - bRow) + Math.Abs(aColomn - bColumn);
     }
 
     //Print all cells of the map
