@@ -91,6 +91,25 @@ namespace MazeNavigation
       Console.WriteLine("EndEarly: " + EndEarly + ", EndFound: " + EndFound + ", EndNull: " + EndNull + ", Steps taken: " + Steps + ", Max steps allowed: " + MaxSteps);
     }
 
+    public void PrintSearched()
+    {
+      Console.WriteLine("Searched: ");
+      foreach (Node n in SearchedNodes)
+      {
+        Console.Write(n.ID + ", ");
+      }
+      Console.WriteLine(" ");
+    }
+
+    public void PrintFinalPathOther()
+    {
+      Console.WriteLine("Final Path: ");
+      foreach (Node n in FinalPath)
+      {
+        Console.WriteLine("ID: " + n.ID + ", Direction: " + n.Direction);
+      }
+    }
+
     public void PrintFinalPath()
     {
       if (finalPath.Count > 0)

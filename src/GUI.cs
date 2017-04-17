@@ -153,7 +153,7 @@ namespace MazeNavigation
         //draw coloured cell
         SwinGame.FillRectangle(c.Color,x,y,w,h);
         SwinGame.DrawRectangle(Color.Black,x,y,w,h); //draw cell outline
-        SwinGame.DrawText(map.Cells.IndexOf(c).ToString(), Color.Black, x+textPad, y+textPad); //cellID
+        SwinGame.DrawText(map.Cells.IndexOf(c).ToString(), Color.Black, x+textPad, y+textPad); // cell ID
         SwinGame.DrawText(c.Type.ToString(), Color.Black, x+textPad, y+textPad+textHeight); // cell Type
         SwinGame.DrawText(c.Cost.ToString(), Color.Black, x+textPad, y+textPad+textHeight+textHeight); // cell cost
 

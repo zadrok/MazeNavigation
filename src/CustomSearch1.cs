@@ -21,9 +21,19 @@ namespace MazeNavigation
         SearchResults.TakeStep();
       } //end while
 
+      //reconstruct the most optimal path
+      SearchResults.ReconstructPath(ref map);
+
       if (ExtensionMethods.Debug)
+      {
+        Console.WriteLine("Final Path: ");
+        SearchResults.PrintFinalPath();
+        SearchResults.PrintSearched();
         SearchResults.OutputInfo();
+      }
+
       return SearchResults;
-    }
-  }
-}
+    } //end Run()
+
+  } //end class
+} //end namespace

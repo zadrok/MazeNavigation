@@ -69,23 +69,13 @@ namespace MazeNavigation
       if (ExtensionMethods.Debug)
       {
         Console.WriteLine("Final Path: ");
-        foreach (Node n in SearchResults.FinalPath)
-        {
-          Console.WriteLine("ID: " + n.ID + ", Direction: " + n.Direction);
-        }
-
-        Console.WriteLine("Searched: ");
-        foreach (Node n in SearchResults.SearchedNodes)
-        {
-          Console.Write(n.ID + ", ");
-        }
-        Console.WriteLine(" ");
-
+        SearchResults.PrintFinalPath();
+        SearchResults.PrintSearched();
         SearchResults.OutputInfo();
       }
 
       return SearchResults;
-    }
+    } //end Run()
 
-  }
-}
+  } //end class
+} //end namespace
