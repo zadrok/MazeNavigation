@@ -20,45 +20,43 @@ namespace MazeNavigation
 
       while (SearchResults.End())
       {
-        //check all nodes in Frontier
-        foreach (Node n in SearchResults.Frontier)
+        //get current node to work on
+        Node current = GetCurrent(SearchResults.Frontier);
+        if (current == null)
         {
-          //check current node for goal state
-          if (n.ID == SearchResults.GoalNode.ID)
+          SearchResults.EndNull = true;
+          break;
+        }
+
+        //check if the current node is the goal node
+        if (current.ID == SearchResults.GoalNode.ID)
+        {
+          SearchResults.SearchedNodes.Add(current);
+          SearchResults.EndFound = true;
+          break;
+        }
+
+        //remove the current node from the Frontier
+        SearchResults.Frontier.Remove(current);
+        //add the current node to the list of searched nodes (closed set)
+        SearchResults.SearchedNodes.Add(current);
+
+        //check all of the current nodes neighbors
+        foreach (Node n in map.GetAdjacentNodes(current.ID))
+        {
+          //check if n is in the closed set or Frontier, if so skip
+          if (NodeInList(n, SearchResults.SearchedNodes) || NodeInList(n, SearchResults.Frontier))
           {
-            SearchResults.SearchedNodes.Add(n);
-            SearchResults.EndFound = true;
-            break;
+            continue;
           }
           else
           {
-            bool found = false;
+            //add to back of queue
+            n.BestAdjacentNodeID = current.ID;
+            SearchResults.Frontier.Add(n);
+          }
 
-            //check if the current node is in the list of searched nodes
-            foreach (Node n2 in SearchResults.SearchedNodes)
-            {
-              if (n.ID == n2.ID)
-                found = true;
-            }
-
-            //if current node is not found then it can be add to the list to search next
-            if (!found)
-            {
-              List<Node> tmp = map.GetAdjacentNodes(n.ID);
-              foreach (Node n2 in tmp)
-              {
-                n2.BestAdjacentNodeID = n.ID;
-              }
-              SearchResults.FrontierNext.AddRange(tmp);
-              SearchResults.SearchedNodes.Add(n);
-            }
-
-          } //end else
-
-        } //end foreach
-
-        SearchResults.Frontier = SearchResults.FrontierNext;
-        SearchResults.ClearFrontierNext();
+        } //end foreach loop
 
         SearchResults.TakeStep();
       } //end while

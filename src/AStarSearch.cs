@@ -11,7 +11,7 @@ namespace MazeNavigation
       Name = aName;
     }
 
-    public Node GetCurrent(List<Node> aList)
+    public override Node GetCurrent(List<Node> aList)
     {
       if (aList.Count < 1)
         return null;
@@ -23,16 +23,6 @@ namespace MazeNavigation
           tmp = n;
       }
       return tmp;
-    }
-
-    public bool NodeInList(Node aNode, List<Node> aList)
-    {
-      foreach (Node n in aList)
-      {
-        if (n.ID == aNode.ID)
-          return true;
-      }
-      return false;
     }
 
     public int GetGScore(Node aNode, List<Node> aList)

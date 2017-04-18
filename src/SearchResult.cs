@@ -125,29 +125,36 @@ namespace MazeNavigation
 
     public void ReconstructPath(ref Map map)
     {
-      bool done = false;
-      FinalPath.Add(GoalNode);
-      while (!done)
+      if (!EndNull && SearchedNodes.Count > 0)
       {
-        ClearFrontierNext();
-        foreach (Node n in SearchedNodes)
+        bool done = false;
+        int maxLoop = MaxSteps;
+        int loop = 0;
+        FinalPath.Add(GoalNode);
+
+        while (!done && loop < maxLoop)
         {
-          if (n.ID == FinalPath[FinalPathLast].ID)
+          ClearFrontierNext();
+          foreach (Node n in SearchedNodes)
           {
-            Node tmp = new Node(n.BestAdjacentNodeID, map.GetAction(n.ID, n.BestAdjacentNodeID));
-            FinalPath.Add(tmp);
+            if (n.ID == FinalPath[FinalPathLast].ID)
+            {
+              Node tmp = new Node(n.BestAdjacentNodeID, map.GetAction(n.ID, n.BestAdjacentNodeID));
+              FinalPath.Add(tmp);
+            }
           }
-        }
 
-        foreach (Node n in FinalPath)
-        {
-          if (n.ID == StartNode.ID)
-            done = true;
-        }
+          foreach (Node n in FinalPath)
+          {
+            if (n.ID == StartNode.ID)
+              done = true;
+          }
+          loop++;
+        } //end while
+        
+        FinalPath.RemoveAt(0);
+        FinalPath = Reverse(FinalPath);
       }
-
-      FinalPath.RemoveAt(0);
-      FinalPath = Reverse(FinalPath);
     }
 
     public string Name
