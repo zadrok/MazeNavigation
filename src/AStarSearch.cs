@@ -74,12 +74,12 @@ namespace MazeNavigation
             continue;
 
           //find the distance from start to n
-          int tentative_gScore = n.GScore + 1;
+          int tentative_gScore = current.GScore + map.Cells[n.ID].Cost;
 
           //if n is not currently in the Frontier add it.
           if (!NodeInList(n, SearchResults.Frontier))
           {
-            n.GScore = tentative_gScore + current.GScore;
+            n.GScore = tentative_gScore;
             n.FScore = n.GScore + map.HeuristicCostEstimate(n.ID, map.EndCell);
             n.BestAdjacentNodeID = current.ID;
             SearchResults.Frontier.Add(n);
@@ -94,7 +94,7 @@ namespace MazeNavigation
           }
 
           //getting to this point means that this is the best path found so far so it needs to be recorded
-          n.GScore = tentative_gScore + current.GScore;
+          n.GScore = tentative_gScore;
           n.FScore = n.GScore + map.HeuristicCostEstimate(n.ID, map.EndCell);
           n.BestAdjacentNodeID = current.ID;
           SearchResults.Frontier.Add(n);

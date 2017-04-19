@@ -8,7 +8,6 @@ namespace MazeNavigation
 
     private List<Node> searchedNodes;
     private List<Node> frontier;
-    private List<Node> frontierNext;
     private List<Node> finalPath;
     private Node goalNode;
     private Node startNode;
@@ -25,7 +24,6 @@ namespace MazeNavigation
       startNode = new Node(startID, Action.NOOP);
       searchedNodes = new List<Node>();
       frontier = new List<Node>();
-      frontierNext = new List<Node>();
       finalPath = new List<Node>();
       name = aName;
       endFound = false;
@@ -33,11 +31,6 @@ namespace MazeNavigation
       endNull = false;
       steps = 0;
       maxSteps = maxStepsToTake;
-    }
-
-    public void ClearFrontierNext()
-    {
-      frontierNext = new List<Node>();
     }
 
     public List<Node> Reverse(List<Node> aList)
@@ -134,7 +127,6 @@ namespace MazeNavigation
 
         while (!done && loop < maxLoop)
         {
-          ClearFrontierNext();
           foreach (Node n in SearchedNodes)
           {
             if (n.ID == FinalPath[FinalPathLast].ID)
@@ -151,7 +143,7 @@ namespace MazeNavigation
           }
           loop++;
         } //end while
-        
+
         FinalPath.RemoveAt(0);
         FinalPath = Reverse(FinalPath);
       }
@@ -218,12 +210,6 @@ namespace MazeNavigation
     {
       get { return frontier; }
       set { frontier = value; }
-    }
-
-    internal List<Node> FrontierNext
-    {
-      get { return frontierNext; }
-      set { frontierNext = value; }
     }
 
     internal List<Node> SearchedNodes
